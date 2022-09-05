@@ -1,0 +1,16 @@
+
+https://www.youtube.com/watch?v=bPHOI29rwB0
+
+https://www.excellarate.com/blogs/configure-alert-manager-for-prometheus-in-kubernetes-aws-eks/
+
+https://www.suse.com/c/rancher_blog/custom-alerts-using-prometheus-queries/
+
+http://docs.alertmanager.info/en/latest/configuration_manual/
+
+https://github.com/prometheus-community/helm-charts/
+
+https://lapee79.github.io/en/article/prometheus-alertmanager-with-msteams/
+
+https://kandi.openweaver.com/go/prometheus-msteams/prometheus-msteams#Code-Snippets
+
+https://github.com/prometheus-msteams/prometheus-msteams

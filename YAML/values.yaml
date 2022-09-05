@@ -1,0 +1,8 @@
+connectors:
+- alert: https://vervotech.webhook.office.com/webhookb2/6d7c5d73-fd8a-4fad-93da-c4345ce48e38@dc01fbac-bc34-475e-a5ed-a7f672291262/IncomingWebhook/d9af1973bd034125a38fff33ea43c026/e565d3b0-63ad-444d-9d12-b4446f7e1ff0 
+metrics:
+  serviceMonitor:
+    enabled: true
+    additionalLabels:
+      release: prometheus
+    scrapeInterval: 30s

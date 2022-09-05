@@ -1,0 +1,157 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+prometheusRule:
+  enabled: true 
+  namespace: monitoring
+  additionalLabels:
+     cluster: cluster
+  namespace: "monitoring"
+apiVersion: v1
+data:
+  monitoring-kube-prometheus-stack-moni-PVCRules.rules.yaml: |
+    groups:
+    - name: PVC.rules
+      rules:
+      - alert: KubePersistentVolumeClaimfordefault
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="default"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="default"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="default"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimforMonitoring
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="monitoring"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="monitoring"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="monitoring"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimfordev
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="dev"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="dev"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="dev"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimforcert-manager
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="cert-manager"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="cert-manager"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="cert-manager"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimfordownloader
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="downloader"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="downloader"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="downloader"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimforelastic-system
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="elastic-system"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="elastic-system"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="elastic-system"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimforinfra
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="infra"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="infra"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="infra"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimforkube-node-lease
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="kube-node-lease"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="kube-node-lease"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="kube-node-lease"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning         
+      - alert: KubePersistentVolumeClaimforkube-public
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="kube-public"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="kube-public"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="kube-public"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimforkube-system
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="kube-system"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="kube-system"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="kube-system"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning 
+      - alert: KubePersistentVolumeClaimforkubernetes-dashboard
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="kubernetes-dashboard"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="kubernetes-dashboard"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="kubernetes-dashboard"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimforprod-api
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="prod-api"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="prod-api"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="prod-api"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimfortool
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="tool"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="tool"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="tool"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+      - alert: KubePersistentVolumeClaimforworker
+        annotations:                                                                          
+          description: " Persistent Volume claimusage is above 80%".
+          summary: Persistent Volume claim usage
+        expr: count (max by (persistentvolumeclaim,namespace) (kubelet_volume_stats_used_bytes{namespace="worker"} ) and (max by(persistentvolumeclaim,namespace) 
+          (kubelet_volume_stats_used_bytes{namespace="worker"} )) / (max by (persistentvolumeclaim,namespace)(kubelet_volume_stats_capacity_bytes{namespace="worker"} )) >= (80 / 100)) or vector (0)
+        for: 2m
+        labels:
+          severity: warning
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2022-08-04T10:08:23Z"
+  labels:
+    managed-by: prometheus-operator
+    prometheus-name: kube-prometheus-stack-moni-prometheus
+  name: prometheus-kube-prometheus-stack-moni-prometheus-rulefiles-0
+  namespace: monitoring
+  ownerReferences:
+  - apiVersion: monitoring.coreos.com/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Prometheus
+    uid: e81e6053-fdb5-4aee-a8e7-6fdbb1cd1e85
+  resourceVersion: "28246338"
+  uid: 24625e92-8302-4c54-8859-cece9ee28fab

@@ -1,0 +1,28 @@
+ //helm uninstall prometheus-msteams -n monitoring
+ helm uninstall prometheus -n monitoring//
+
+1)helm repo update
+
+2) //crete secret for alertmanager.yaml
+kubectl create secret -n monitoring generic myalertmanager --from-file=alertmanager.yaml=C:\Users\Administrator\Downloads\alertmanagers.yaml
+
+3) // check secret created or not 
+kubectl get secret -n monitoring
+
+4) // check alertmananger.yaml updated or not
+kubectl get secret -n monitoring myalertmanager -o yaml
+
+5) //install helm prometheus release 
+helm install -n monitoring -f C:\Users\Administrator\Downloads\value.yaml prometheus prometheus-community/kube-prometheus-stack
+
+6) // install helm prometheus-msteams release
+helm install -n monitoring -f C:\Users\Administrator\Downloads\values.yaml prometheus-msteams prometheus-msteams/prometheus-msteams
+
+7) // list of prometheusrules . yaml
+kubectl get prometheusrules -n monitoring
+
+8) // edit the prometheus rules 
+kubectl edit prometheusrules -n monitoring prometheus-kube-prometheus-general.rules
+
+
+

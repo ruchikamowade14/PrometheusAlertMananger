@@ -1,0 +1,91 @@
+ - alert: PodHighCpuLoad
+    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      summary: Host high CPU load (instance {{ $labels.instance }})
+      description: "CPU load is > 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+ - alert: ContainerCpuUsage
+    expr: (sum(rate(container_cpu_usage_seconds_total{name!=""}[3m])) BY (instance, name) * 100) > 80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Container CPU usage (instance {{ $labels.instance }})
+      description: "Container CPU usage is above 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+ - alert: ContainerMemoryUsage
+    expr: (sum(container_memory_working_set_bytes{name!=""}) BY (instance, name) / sum(container_spec_memory_limit_bytes > 0) BY (instance, name) * 100) > 80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Container Memory usage (instance {{ $labels.instance }})
+      description: "Container Memory usage is above 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+- alert: ContainerVolumeUsage
+    expr: (1 - (sum(container_fs_inodes_free{name!=""}) BY (instance) / sum(container_fs_inodes_total) BY (instance))) * 100 > 80
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Container Volume usage (instance {{ $labels.instance }})
+      description: "Container Volume usage is above 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+- alert: KubernetesOutOfDisk
+    expr: kube_node_status_condition{condition="OutOfDisk",status="true"} == 1
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: Kubernetes out of disk (instance {{ $labels.instance }})
+      description: "{{ $labels.node }} has OutOfDisk condition\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+- alert: KubernetesOutOfCapacity
+    expr: sum by (node) ((kube_pod_status_phase{phase="Running"} == 1) + on(uid) group_left(node) (0 * kube_pod_info{pod_template_hash=""})) / sum by (node) (kube_node_status_allocatable{resource="pods"}) * 100 > 90
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Kubernetes out of capacity (instance {{ $labels.instance }})
+      description: "{{ $labels.node }} is out of capacity\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+- alert: KubernetesVolumeOutOfDiskSpace
+    expr: kubelet_volume_stats_available_bytes / kubelet_volume_stats_capacity_bytes * 100 < 10
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Kubernetes Volume out of disk space (instance {{ $labels.instance }})
+      description: "Volume is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+- alert: KubeSchedulerDown
+      annotations:
+        description: KubeScheduler has disappeared from Prometheus target discovery.
+        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeschedulerdown
+        summary: Target disappeared from Prometheus target discovery.
+    expr: absent(up{job="kube-scheduler"} == 1)
+    for: 15m
+    labels:
+      severity: critical
+
+      
+- alert: ContainerVolumeUsage
+      annotations:
+        description: |-
+          Container Volume usage is above 50%
+            VALUE = {{ $value }}
+            LABELS = {{ $labels }}
+        summary: Container Volume usage (instance {{ $labels.instance }})
+      expr: (1 - (sum(container_fs_inodes_free{name!=""}) BY (instance) / sum(container_fs_inodes_total)
+        BY (instance))) * 100 > 50
+      for: 2m
+      labels:
+        severity: warning
+- alert: ContainerCpuUsage
+      annotations:
+        description: |-
+          Container CPU usage is above 50%
+            VALUE = {{ $value }}
+            LABELS = {{ $labels }}
+        summary: Container CPU usage (instance {{ $labels.instance }})
+      expr: (sum(rate(container_cpu_usage_seconds_total{name!=""}[3m])) BY (instance,
+        name) * 100) > 50
+      for: 2m
+      labels:
+        severity: warning
